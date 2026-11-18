@@ -3,7 +3,8 @@ name: Automated Static Analysis
 on:
   push:
     paths:
-      - 'builds/*.apk'
+      - '*.apk'
+  workflow_dispatch:
 
 jobs:
   decompile:
@@ -21,11 +22,10 @@ jobs:
       - name: Decompile APK
         run: |
           mkdir -p output
-          ./jadx-tool/bin/jadx -d output builds/*.apk
+          ./jadx-tool/bin/jadx -d output *.apk
 
       - name: Upload Decompiled Source
         uses: actions/upload-artifact@v4
         with:
           name: decompiled-source
           path: output/
-          
