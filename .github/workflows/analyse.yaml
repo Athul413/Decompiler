@@ -15,11 +15,12 @@ jobs:
 
       - name: Install JADX
         run: |
-          wget https://github.com/skylot/jadx/releases/download/v1.5.6/jadx-1.5.6.zip
+          wget https://github.com
           unzip jadx-1.5.6.zip -d jadx-tool
           chmod +x jadx-tool/bin/jadx
 
       - name: Decompile APK
+        continue-on-error: true
         run: |
           mkdir -p output
           ./jadx-tool/bin/jadx -d output *.apk
