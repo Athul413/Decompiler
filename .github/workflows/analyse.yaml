@@ -1,0 +1,31 @@
+name: Automated Static Analysis
+
+on:
+  push:
+    paths:
+      - 'builds/*.apk'
+
+jobs:
+  decompile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install JADX
+        run: |
+          wget https://github.com
+          unzip jadx-1.5.0.zip -d jadx-tool
+          chmod +x jadx-tool/bin/jadx
+
+      - name: Decompile APK
+        run: |
+          mkdir -p output
+          ./jadx-tool/bin/jadx -d output builds/*.apk
+
+      - name: Upload Decompiled Source
+        uses: actions/upload-artifact@v4
+        with:
+          name: decompiled-source
+          path: output/
+          
