@@ -14,9 +14,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install JADX
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          wget https://github.com
-          unzip jadx-1.5.6.zip -d jadx-tool
+          gh release download --repo skylot/jadx --pattern "jadx-[0-9]*.zip"
+          unzip jadx-[0-9]*.zip -d jadx-tool
           chmod +x jadx-tool/bin/jadx
 
       - name: Decompile APK
